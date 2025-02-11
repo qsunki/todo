@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+if [ ! -d .git ]; then
+    echo -e "${RED}Error: This script must be run from the root of the Git repository${NC}"
+    exit 1
+fi
+
+STAGED_FILES=$(git diff --cached --name-only)
+
+BACKEND_FILES=$(echo "$STAGED_FILES" | grep '^backend/' || true)
+FRONTEND_FILES=$(echo "$STAGED_FILES" | grep '^frontend/' | grep -E '\.(js|jsx|ts|tsx)$' || true)
+
+if [[ -n "$BACKEND_FILES" ]]; then
+    echo "[Backend] Running backend-format checks..."
+
+    pushd backend > /dev/null || exit 1
+
+    SPOTLESS_OUTPUT_FILE="spotless_check_output.txt"
+
+    if ! ./gradlew spotlessCheck > "$SPOTLESS_OUTPUT_FILE" 2>&1; then
+        echo -e "${RED}❌ Spotless check failed. Please run './gradlew spotlessApply' to fix formatting${NC}"
+	echo -e "${RED}Please check ${SPOTLESS_OUTPUT_FILE} for more details${NC}"
+        exit 1
+    fi
+
+    popd > /dev/null
+fi
+
+if [[ -n "$FRONTEND_FILES" ]]; then
+    echo "[Frontend] Running frontend-format checks..."
+
+    pushd frontend > /dev/null || exit 1
+
+    if ! npx eslint --fix $FRONTEND_FILES; then
+        echo -e "${RED}❌ Frontend linting failed! Please fix the above errors before committing${NC}"
+        exit 1
+    fi
+
+    git add $FRONTEND_FILES
+
+    popd > /dev/null
+fi
+
+echo -e "${GREEN}✅ Pre-commit checks passed!${NC}"
+exit 0
+
