@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.example.mytodo.TestcontainersConfiguration;
+import com.example.mytodo.todo.application.dto.TodoDetail;
 import com.example.mytodo.todo.application.dto.TodoUpdateReq;
 import com.example.mytodo.todo.application.exception.AccessDeniedException;
 import com.example.mytodo.todo.domain.Todo;
