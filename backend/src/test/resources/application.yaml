@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: mytodo
+  sql:
+    init:
+      mode: always
