@@ -1,4 +1,4 @@
-package com.example.todo;
+package com.example.mytodo;
 
 import org.springframework.boot.SpringApplication;
 
