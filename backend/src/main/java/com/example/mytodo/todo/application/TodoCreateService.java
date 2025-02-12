@@ -4,6 +4,7 @@ import com.example.mytodo.todo.application.dto.TodoCreateReq;
 import com.example.mytodo.todo.domain.Todo;
 import com.example.mytodo.todo.domain.TodoRepository;
 import java.time.LocalDateTime;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,10 +16,7 @@ public class TodoCreateService {
         this.todoRepository = todoRepository;
     }
 
-    public TodoDetail create(TodoCreateReq todoCreateReq, Long userId) {
-        if (userId == null) {
-            throw new IllegalArgumentException("userId cannot be null");
-        }
+    public TodoDetail create(@NonNull TodoCreateReq todoCreateReq, @NonNull Long userId) {
         if (todoCreateReq.content() == null) {
             todoCreateReq = new TodoCreateReq("");
         }

@@ -4,6 +4,7 @@ import com.example.mytodo.todo.application.dto.TodoUpdateReq;
 import com.example.mytodo.todo.application.exception.AccessDeniedException;
 import com.example.mytodo.todo.domain.Todo;
 import com.example.mytodo.todo.domain.TodoRepository;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,10 +18,7 @@ public class TodoUpdateService {
     }
 
     @Transactional
-    public TodoDetail update(TodoUpdateReq todoUpdateReq, Long userId) {
-        if (userId == null) {
-            throw new IllegalArgumentException("userId cannot be null");
-        }
+    public TodoDetail update(@NonNull TodoUpdateReq todoUpdateReq, @NonNull Long userId) {
         if (todoUpdateReq.id() == null) {
             throw new IllegalArgumentException("todo id cannot be null");
         }

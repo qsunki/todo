@@ -56,18 +56,6 @@ class TodoUpdateServiceTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @DisplayName("userId가 null이 아니여야 한다")
-    @Test
-    void if_userId_is_null_then_throw() {
-        // given
-        Todo oldTodo = createTodo(1L);
-        TodoUpdateReq todoUpdateReq = new TodoUpdateReq(oldTodo.getId(), "new content");
-
-        // when & then
-        assertThatThrownBy(() -> todoUpdateService.update(todoUpdateReq, null))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
     @DisplayName("content가 null이면 빈 문자열로 업데이트 한다")
     @Test
     void update_when_content_null() {
