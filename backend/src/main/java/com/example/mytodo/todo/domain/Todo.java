@@ -53,4 +53,8 @@ public class Todo {
     public Long getUserId() {
         return userId;
     }
+
+    public void changeContent(String content) {
+        this.content = content == null ? "" : content;
+    }
 }
