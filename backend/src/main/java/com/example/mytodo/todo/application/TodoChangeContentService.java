@@ -1,6 +1,6 @@
 package com.example.mytodo.todo.application;
 
-import com.example.mytodo.todo.application.command.TodoUpdateReq;
+import com.example.mytodo.todo.application.command.TodoChangeContentReq;
 import com.example.mytodo.todo.application.exception.AccessDeniedException;
 import com.example.mytodo.todo.domain.Todo;
 import com.example.mytodo.todo.domain.TodoRepository;
@@ -10,24 +10,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class TodoUpdateService {
+public class TodoChangeContentService {
 
     private final TodoRepository todoRepository;
 
-    public TodoUpdateService(TodoRepository todoRepository) {
+    public TodoChangeContentService(TodoRepository todoRepository) {
         this.todoRepository = todoRepository;
     }
 
     @Transactional
-    public TodoDetail update(@NonNull TodoUpdateReq todoUpdateReq, @NonNull Long userId) {
-        if (todoUpdateReq.id() == null) {
+    public TodoDetail changeContent(@NonNull TodoChangeContentReq todoChangeContentReq, @NonNull Long userId) {
+        if (todoChangeContentReq.id() == null) {
             throw new IllegalArgumentException("todo id cannot be null");
         }
-        Todo todo = todoRepository.findById(todoUpdateReq.id()).orElseThrow();
+        Todo todo = todoRepository.findById(todoChangeContentReq.id()).orElseThrow();
         if (!userId.equals(todo.getUserId())) {
             throw new AccessDeniedException("userId does not match");
         }
-        todo.changeContent(todoUpdateReq.content(), LocalDateTime.now());
+        todo.changeContent(todoChangeContentReq.content(), LocalDateTime.now());
         Todo save = todoRepository.save(todo);
         return TodoDetail.from(save);
     }
