@@ -41,7 +41,8 @@ public class SecurityConfig {
                         .anyRequest()
                         .authenticated())
                 .addFilterBefore(
-                        restAuthenticationFilter(authenticationManager), UsernamePasswordAuthenticationFilter.class)
+                        restAuthenticationFilter(http, authenticationManager),
+                        UsernamePasswordAuthenticationFilter.class)
                 .authenticationManager(authenticationManager)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable);
@@ -54,8 +55,9 @@ public class SecurityConfig {
         return new RestAuthenticationProvider(userRepository, passwordEncoder);
     }
 
-    private RestAuthenticationFilter restAuthenticationFilter(AuthenticationManager authenticationManager) {
-        RestAuthenticationFilter restAuthenticationFilter = new RestAuthenticationFilter(objectMapper);
+    private RestAuthenticationFilter restAuthenticationFilter(
+            HttpSecurity http, AuthenticationManager authenticationManager) {
+        RestAuthenticationFilter restAuthenticationFilter = new RestAuthenticationFilter(http, objectMapper);
         restAuthenticationFilter.setAuthenticationManager(authenticationManager);
         restAuthenticationFilter.setAuthenticationSuccessHandler(new RestAuthenticationSuccessHandler(objectMapper));
         restAuthenticationFilter.setAuthenticationFailureHandler(new RestAuthenticationFailureHandler(objectMapper));
