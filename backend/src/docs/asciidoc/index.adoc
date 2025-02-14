@@ -1,0 +1,44 @@
+= MyTodo API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+
+== User API
+
+=== 회원가입
+==== HTTP Request
+include::{snippets}/user/join/http-request.adoc[]
+==== HTTP Response
+include::{snippets}/user/join/http-response.adoc[]
+==== Curl
+include::{snippets}/user/join/curl-request.adoc[]
+
+=== 로그인
+
+== Todo API
+
+=== Todo 생성
+==== HTTP Request
+include::{snippets}/todo/create/http-request.adoc[]
+==== HTTP Response
+include::{snippets}/todo/create/http-response.adoc[]
+==== Curl
+include::{snippets}/todo/create/curl-request.adoc[]
+
+=== Todo 수정
+==== HTTP Request
+include::{snippets}/todo/update/http-request.adoc[]
+==== HTTP Response
+include::{snippets}/todo/update/http-response.adoc[]
+==== Curl
+include::{snippets}/todo/update/curl-request.adoc[]
+
+=== Todo 삭제
+==== HTTP Request
+include::{snippets}/todo/delete/http-request.adoc[]
+==== HTTP Response
+include::{snippets}/todo/delete/http-response.adoc[]
+==== Curl
+include::{snippets}/todo/delete/curl-request.adoc[]
