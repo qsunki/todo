@@ -4,6 +4,7 @@ import com.example.mytodo.todo.application.command.TodoUpdateReq;
 import com.example.mytodo.todo.application.exception.AccessDeniedException;
 import com.example.mytodo.todo.domain.Todo;
 import com.example.mytodo.todo.domain.TodoRepository;
+import java.time.LocalDateTime;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ public class TodoUpdateService {
         if (!userId.equals(todo.getUserId())) {
             throw new AccessDeniedException("userId does not match");
         }
-        todo.changeContent(todoUpdateReq.content());
+        todo.changeContent(todoUpdateReq.content(), LocalDateTime.now());
         Todo save = todoRepository.save(todo);
         return TodoDetail.from(save);
     }

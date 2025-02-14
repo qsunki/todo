@@ -54,7 +54,8 @@ public class Todo {
         return userId;
     }
 
-    public void changeContent(String content) {
+    public void changeContent(String content, LocalDateTime lastModifiedTime) {
         this.content = content == null ? "" : content;
+        this.lastModifiedTime = lastModifiedTime;
     }
 }

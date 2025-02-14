@@ -83,6 +83,10 @@ class TodoUpdateServiceTest {
 
         // then
         assertThat(todoDetail).isNotNull().extracting(TodoDetail::content).isEqualTo(todoUpdateReq.content());
+        assertThat(todoRepository.findById(todoDetail.id())).get().satisfies(todo -> {
+            assertThat(todo.getContent()).isEqualTo(todoUpdateReq.content());
+            assertThat(todo.getLastModifiedTime()).isNotEqualTo(oldTodo.getLastModifiedTime());
+        });
     }
 
     private Todo createTodo(Long userId) {
