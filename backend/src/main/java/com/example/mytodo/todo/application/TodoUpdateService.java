@@ -1,6 +1,5 @@
 package com.example.mytodo.todo.application;
 
-import com.example.mytodo.todo.application.dto.TodoDetail;
 import com.example.mytodo.todo.application.dto.TodoUpdateReq;
 import com.example.mytodo.todo.application.exception.AccessDeniedException;
 import com.example.mytodo.todo.domain.Todo;

@@ -1,7 +1,6 @@
 package com.example.mytodo.todo.application;
 
 import com.example.mytodo.todo.application.dto.TodoCreateReq;
-import com.example.mytodo.todo.application.dto.TodoDetail;
 import com.example.mytodo.todo.domain.Todo;
 import com.example.mytodo.todo.domain.TodoRepository;
 import java.time.LocalDateTime;

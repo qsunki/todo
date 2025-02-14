@@ -1,4 +1,4 @@
-package com.example.mytodo.todo.application.dto;
+package com.example.mytodo.todo.application;
 
 import com.example.mytodo.todo.domain.Todo;
 
