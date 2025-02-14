@@ -14,7 +14,7 @@ class TodoController {
     private final TodoChangeCompletionService todoChangeCompletionService;
     private final TodoDeleteService todoDeleteService;
 
-    public TodoController(
+    TodoController(
             TodoCreateService todoCreateService,
             TodoChangeContentService todoChangeContentService,
             TodoChangeCompletionService todoChangeCompletionService,
