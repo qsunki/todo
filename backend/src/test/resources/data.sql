@@ -1,5 +1,5 @@
 INSERT INTO users (username, password)
-VALUES ('user1', '1234');
+VALUES ('user1', '$2a$10$WOuZxXUOHPad.YA9INStfO/88Vrh.sqbGEoGsgw9dGTq.6cN5vJXi');
 
 INSERT INTO todos (content, completed, created_time, last_modified_time, user_id)
 VALUES ('Learn Spring Boot', true, '2024-02-13 10:00:00', '2024-02-13 10:00:00', 1),
