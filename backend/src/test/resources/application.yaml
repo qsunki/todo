@@ -7,3 +7,4 @@ spring:
 logging:
   level:
     org.springframework.jdbc: debug
+    org.springframework.security: debug
