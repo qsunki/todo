@@ -16,6 +16,12 @@ include::{snippets}/user/join/http-response.adoc[]
 include::{snippets}/user/join/curl-request.adoc[]
 
 === 로그인
+==== HTTP Request
+include::{snippets}/user/login/http-request.adoc[]
+==== HTTP Response
+include::{snippets}/user/login/http-response.adoc[]
+==== Curl
+include::{snippets}/user/login/curl-request.adoc[]
 
 == Todo API
 

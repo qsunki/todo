@@ -3,6 +3,7 @@ package com.example.mytodo.web;
 import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document;
 
 import com.example.mytodo.TestcontainersConfiguration;
+import com.example.mytodo.infra.security.UserLoginReq;
 import com.example.mytodo.user.application.UserDetail;
 import com.example.mytodo.user.application.command.UserJoinReq;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,6 +40,24 @@ class UserControllerTest {
         webTestClient
                 .post()
                 .uri("/api/users")
+                .bodyValue(request)
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(UserDetail.class)
+                .isEqualTo(new UserDetail(request.username()))
+                .consumeWith(document("user/{method-name}"));
+    }
+
+    @Test
+    void login() {
+        // given
+        UserLoginReq request = new UserLoginReq("user1", "1234");
+
+        // when & then
+        webTestClient
+                .post()
+                .uri("/api/login")
                 .bodyValue(request)
                 .exchange()
                 .expectStatus()
