@@ -1,16 +1,22 @@
 package com.example.mytodo.web;
 
+import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document;
+
 import com.example.mytodo.TestcontainersConfiguration;
 import com.example.mytodo.user.application.UserDetail;
 import com.example.mytodo.user.application.command.UserJoinReq;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 @Import(TestcontainersConfiguration.class)
+@ExtendWith(RestDocumentationExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class UserControllerTest {
 
@@ -20,9 +26,8 @@ class UserControllerTest {
     WebTestClient webTestClient;
 
     @BeforeEach
-    void setUp() {
-        webTestClient =
-                WebTestClient.bindToServer().baseUrl("http://localhost:" + port).build();
+    void setUp(RestDocumentationContextProvider restDocumentation) {
+        webTestClient = ControllerTestHelper.createWebTestClient(port, restDocumentation);
     }
 
     @Test
@@ -39,6 +44,7 @@ class UserControllerTest {
                 .expectStatus()
                 .isOk()
                 .expectBody(UserDetail.class)
-                .isEqualTo(new UserDetail(request.username()));
+                .isEqualTo(new UserDetail(request.username()))
+                .consumeWith(document("user/{method-name}"));
     }
 }

@@ -1,6 +1,7 @@
 package com.example.mytodo.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document;
 
 import com.example.mytodo.TestcontainersConfiguration;
 import com.example.mytodo.infra.security.UserLoginReq;
@@ -10,12 +11,16 @@ import com.example.mytodo.todo.application.command.TodoUpdateReq;
 import com.example.mytodo.user.application.UserDetail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 @Import(TestcontainersConfiguration.class)
+@ExtendWith(RestDocumentationExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class TodoControllerTest {
 
@@ -25,9 +30,8 @@ class TodoControllerTest {
     WebTestClient webTestClient;
 
     @BeforeEach
-    void setUp() {
-        webTestClient =
-                WebTestClient.bindToServer().baseUrl("http://localhost:" + port).build();
+    void setUp(RestDocumentationContextProvider restDocumentation) {
+        webTestClient = ControllerTestHelper.createWebTestClient(port, restDocumentation);
     }
 
     @Test
@@ -52,7 +56,8 @@ class TodoControllerTest {
                     assertThat(todoDetail.id()).isNotNull();
                     assertThat(todoDetail.content()).isEqualTo(request.content());
                     assertThat(todoDetail.complete()).isFalse();
-                });
+                })
+                .consumeWith(document("todo/{method-name}"));
     }
 
     @Test
@@ -78,7 +83,8 @@ class TodoControllerTest {
                     assertThat(todoDetail.id()).isNotNull();
                     assertThat(todoDetail.content()).isEqualTo(request.content());
                     assertThat(todoDetail.complete()).isFalse();
-                });
+                })
+                .consumeWith(document("todo/{method-name}"));
     }
 
     @Test
@@ -96,7 +102,9 @@ class TodoControllerTest {
                 .uri("/api/todos/{todoId}", createdTodo.id())
                 .exchange()
                 .expectStatus()
-                .isOk();
+                .isOk()
+                .expectBody(Void.class)
+                .consumeWith(document("todo/{method-name}"));
     }
 
     private TodoDetail createTodo(String sessionId) {
