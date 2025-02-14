@@ -58,4 +58,9 @@ public class Todo {
         this.content = content == null ? "" : content;
         this.lastModifiedTime = lastModifiedTime;
     }
+
+    public void changeComplete(boolean complete, LocalDateTime lastModifiedTime) {
+        this.completed = complete;
+        this.lastModifiedTime = lastModifiedTime;
+    }
 }
