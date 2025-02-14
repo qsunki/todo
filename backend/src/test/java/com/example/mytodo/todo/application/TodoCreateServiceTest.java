@@ -3,7 +3,7 @@ package com.example.mytodo.todo.application;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.mytodo.TestcontainersConfiguration;
-import com.example.mytodo.todo.application.dto.TodoCreateReq;
+import com.example.mytodo.todo.application.command.TodoCreateReq;
 import com.example.mytodo.todo.domain.TodoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

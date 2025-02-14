@@ -1,6 +1,6 @@
 package com.example.mytodo.todo.application;
 
-import com.example.mytodo.todo.application.dto.TodoDeleteReq;
+import com.example.mytodo.todo.application.command.TodoDeleteReq;
 import com.example.mytodo.todo.application.exception.AccessDeniedException;
 import com.example.mytodo.todo.domain.Todo;
 import com.example.mytodo.todo.domain.TodoRepository;
