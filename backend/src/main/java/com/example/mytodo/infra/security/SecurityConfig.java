@@ -38,6 +38,8 @@ public class SecurityConfig {
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
         http.authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST, "/api/users")
                         .permitAll()
+                        .requestMatchers(HttpMethod.GET, "/docs/index.html")
+                        .permitAll()
                         .anyRequest()
                         .authenticated())
                 .addFilterBefore(
