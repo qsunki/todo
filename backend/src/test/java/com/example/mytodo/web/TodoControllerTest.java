@@ -4,11 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document;
 
 import com.example.mytodo.TestcontainersConfiguration;
-import com.example.mytodo.infra.security.UserLoginReq;
 import com.example.mytodo.todo.application.TodoDetail;
 import com.example.mytodo.todo.application.command.TodoCreateReq;
 import com.example.mytodo.todo.application.command.TodoUpdateReq;
-import com.example.mytodo.user.application.UserDetail;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,7 +35,7 @@ class TodoControllerTest {
     @Test
     void create() {
         // given
-        String sessionId = getLoginSession();
+        String sessionId = ControllerTestHelper.getLoginSession(webTestClient);
         TodoCreateReq request = new TodoCreateReq("something to do");
 
         // when & then
@@ -63,7 +61,7 @@ class TodoControllerTest {
     @Test
     void update() {
         // given
-        String sessionId = getLoginSession();
+        String sessionId = ControllerTestHelper.getLoginSession(webTestClient);
         TodoDetail createdTodo = createTodo(sessionId);
         TodoUpdateReq request = new TodoUpdateReq("content", "new Content", null);
 
@@ -90,7 +88,7 @@ class TodoControllerTest {
     @Test
     void delete() {
         // given
-        String sessionId = getLoginSession();
+        String sessionId = ControllerTestHelper.getLoginSession(webTestClient);
         TodoDetail createdTodo = createTodo(sessionId);
 
         // when & then
@@ -120,18 +118,5 @@ class TodoControllerTest {
                 .expectBody(TodoDetail.class)
                 .returnResult()
                 .getResponseBody();
-    }
-
-    private String getLoginSession() {
-        return webTestClient
-                .post()
-                .uri("/api/login")
-                .bodyValue(new UserLoginReq("user1", "1234"))
-                .exchange()
-                .returnResult(UserDetail.class)
-                .getResponseCookies()
-                .get("JSESSIONID")
-                .getFirst()
-                .getValue();
     }
 }

@@ -3,6 +3,8 @@ package com.example.mytodo.web;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.documentationConfiguration;
 
+import com.example.mytodo.infra.security.UserLoginReq;
+import com.example.mytodo.user.application.UserDetail;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
@@ -34,5 +36,18 @@ public class ControllerTestHelper {
                                         .remove("Date")
                                         .remove("Content-Length")))
                 .build();
+    }
+
+    public static String getLoginSession(WebTestClient webTestClient) {
+        return webTestClient
+                .post()
+                .uri("/api/login")
+                .bodyValue(new UserLoginReq("user1", "1234"))
+                .exchange()
+                .returnResult(UserDetail.class)
+                .getResponseCookies()
+                .get("JSESSIONID")
+                .getFirst()
+                .getValue();
     }
 }
