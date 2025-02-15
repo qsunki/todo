@@ -62,7 +62,7 @@ class TodoControllerTest {
     void update() {
         // given
         String sessionId = ControllerTestHelper.getLoginSession(webTestClient);
-        TodoDetail createdTodo = createTodo(sessionId);
+        TodoDetail createdTodo = ControllerTestHelper.createTodo(webTestClient, sessionId);
         TodoUpdateReq request = new TodoUpdateReq("content", "new Content", null);
 
         // when & then
@@ -89,7 +89,7 @@ class TodoControllerTest {
     void delete() {
         // given
         String sessionId = ControllerTestHelper.getLoginSession(webTestClient);
-        TodoDetail createdTodo = createTodo(sessionId);
+        TodoDetail createdTodo = ControllerTestHelper.createTodo(webTestClient, sessionId);
 
         // when & then
         webTestClient
@@ -103,20 +103,5 @@ class TodoControllerTest {
                 .isOk()
                 .expectBody(Void.class)
                 .consumeWith(document("todo/{method-name}"));
-    }
-
-    private TodoDetail createTodo(String sessionId) {
-        TodoCreateReq createReq = new TodoCreateReq("something to do");
-        return webTestClient
-                .mutate()
-                .defaultCookie("JSESSIONID", sessionId)
-                .build()
-                .post()
-                .uri("/api/todos")
-                .bodyValue(createReq)
-                .exchange()
-                .expectBody(TodoDetail.class)
-                .returnResult()
-                .getResponseBody();
     }
 }

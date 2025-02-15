@@ -4,6 +4,8 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.documentationConfiguration;
 
 import com.example.mytodo.infra.security.UserLoginReq;
+import com.example.mytodo.todo.application.TodoDetail;
+import com.example.mytodo.todo.application.command.TodoCreateReq;
 import com.example.mytodo.user.application.UserDetail;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -49,5 +51,20 @@ public class ControllerTestHelper {
                 .get("JSESSIONID")
                 .getFirst()
                 .getValue();
+    }
+
+    public static TodoDetail createTodo(WebTestClient webTestClient, String sessionId) {
+        TodoCreateReq createReq = new TodoCreateReq("something to do");
+        return webTestClient
+                .mutate()
+                .defaultCookie("JSESSIONID", sessionId)
+                .build()
+                .post()
+                .uri("/api/todos")
+                .bodyValue(createReq)
+                .exchange()
+                .expectBody(TodoDetail.class)
+                .returnResult()
+                .getResponseBody();
     }
 }
