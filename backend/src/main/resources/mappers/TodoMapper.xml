@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mytodo.infra.mybatis.TodoDao">
+
+    <select id="findAll" resultMap="todoViewResultMap">
+        SELECT
+        t.id AS todo_id,
+        t.content,
+        t.completed,
+        t.created_time,
+        t.last_modified_time,
+        pp.id AS property_id,
+        pp.name AS property_name,
+        pp.type AS property_type,
+        pp.data AS property_data
+        FROM todos t
+        LEFT JOIN properties p ON t.id = p.todo_id
+        LEFT JOIN properties pp ON t.id = pp.todo_id
+        WHERE t.user_id = #{userId}
+
+        <if test="todoListRetrieveReq.filters != null and !todoListRetrieveReq.filters.isEmpty()">
+            <foreach collection="todoListRetrieveReq.filters" item="filter" separator="AND">
+                <if test="filter.name != null and filter.data != null and filter.type != null">
+                    AND p.name = #{filter.name}
+                    <choose>
+                        <when test="filter.type.name() == 'SELECT'">
+                            AND p.data->>'$.name' = #{filter.data.name}
+                        </when>
+                        <when test="filter.type.name() == 'DATE'">
+                            AND STR_TO_DATE(data->>'$.start', '%Y-%m-%d')
+                            BETWEEN #{filter.data.start} AND COALESCE(#{filter.data.end}, '9999-12-31');
+                        </when>
+                    </choose>
+                </if>
+            </foreach>
+        </if>
+    </select>
+
+    <resultMap id="propertyViewResultMap" type="PropertyView">
+        <id property="id" column="property_id"/>
+        <result property="name" column="property_name"/>
+        <result property="type" column="property_type"/>
+        <result property="data" column="property_data"/>
+    </resultMap>
+
+    <resultMap id="todoViewResultMap" type="TodoView">
+        <id property="id" column="todo_id"/>
+        <result property="content" column="content"/>
+        <result property="completed" column="completed"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="lastModifiedTime" column="last_modified_time"/>
+
+        <collection property="properties" javaType="java.util.List" resultMap="propertyViewResultMap" notNullColumn="property_id"/>
+    </resultMap>
+</mapper>

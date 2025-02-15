@@ -1,3 +1,6 @@
 spring:
   application:
     name: mytodo
+mybatis:
+  mapper-locations: classpath*:mappers/**/*.xml
+  type-aliases-package: com.example.mytodo.web
