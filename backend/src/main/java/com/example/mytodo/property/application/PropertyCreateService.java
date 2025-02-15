@@ -22,7 +22,7 @@ public class PropertyCreateService {
         this.todoRepository = todoRepository;
     }
 
-    PropertyDetail create(@NonNull PropertyCreateReq propertyCreateReq, @NonNull Long userId) {
+    public PropertyDetail create(@NonNull PropertyCreateReq propertyCreateReq, @NonNull Long userId) {
         if (!StringUtils.hasText(propertyCreateReq.name())) {
             throw new IllegalArgumentException("Property name cannot be empty");
         }
