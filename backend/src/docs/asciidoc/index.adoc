@@ -48,3 +48,21 @@ include::{snippets}/todo/delete/http-request.adoc[]
 include::{snippets}/todo/delete/http-response.adoc[]
 ==== Curl
 include::{snippets}/todo/delete/curl-request.adoc[]
+
+== Property API
+
+=== Date Property 생성
+==== HTTP Request
+include::{snippets}/property/date_create/http-request.adoc[]
+==== HTTP Response
+include::{snippets}/property/date_create/http-response.adoc[]
+==== Curl
+include::{snippets}/property/date_create/curl-request.adoc[]
+
+=== Select Property 생성
+==== HTTP Request
+include::{snippets}/property/select_create/http-request.adoc[]
+==== HTTP Response
+include::{snippets}/property/select_create/http-response.adoc[]
+==== Curl
+include::{snippets}/property/select_create/curl-request.adoc[]
