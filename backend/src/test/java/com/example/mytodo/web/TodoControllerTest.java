@@ -4,9 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document;
 
 import com.example.mytodo.TestcontainersConfiguration;
+import com.example.mytodo.property.domain.PropertyType;
+import com.example.mytodo.property.domain.SelectProperty;
 import com.example.mytodo.todo.application.TodoDetail;
 import com.example.mytodo.todo.application.command.TodoCreateReq;
 import com.example.mytodo.todo.application.command.TodoUpdateReq;
+import com.example.mytodo.web.TodoListRetrieveReq.Filter;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,6 +34,28 @@ class TodoControllerTest {
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation) {
         webTestClient = ControllerTestHelper.createWebTestClient(port, restDocumentation);
+    }
+
+    @Test
+    void query() {
+        // given
+        String sessionId = ControllerTestHelper.getLoginSession(webTestClient);
+        List<Filter> filters = List.of(new Filter("우선순위", PropertyType.SELECT, new SelectProperty("상", null)));
+        TodoListRetrieveReq todoListRetrieveReq = new TodoListRetrieveReq(filters);
+
+        // when & then
+        webTestClient
+                .mutate()
+                .defaultCookie("JSESSIONID", sessionId)
+                .build()
+                .post()
+                .uri("/api/todos/query")
+                .bodyValue(todoListRetrieveReq)
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(List.class)
+                .consumeWith(document("todo/{method-name}"));
     }
 
     @Test
