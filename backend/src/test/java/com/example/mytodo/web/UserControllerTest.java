@@ -66,4 +66,23 @@ class UserControllerTest {
                 .isEqualTo(new UserDetail(request.username()))
                 .consumeWith(document("user/{method-name}"));
     }
+
+    @Test
+    void me() {
+        // given
+        String sessionId = ControllerTestHelper.getLoginSession(webTestClient);
+
+        // when & then
+        webTestClient
+                .mutate()
+                .defaultCookie("JSESSIONID", sessionId)
+                .build()
+                .get()
+                .uri("/api/users/me")
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(UserDetail.class)
+                .consumeWith(document("user/{method-name}"));
+    }
 }

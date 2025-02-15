@@ -23,6 +23,14 @@ include::{snippets}/user/login/http-response.adoc[]
 ==== Curl
 include::{snippets}/user/login/curl-request.adoc[]
 
+=== 로그인 사용자 정보 조회
+==== HTTP Request
+include::{snippets}/user/me/http-request.adoc[]
+==== HTTP Response
+include::{snippets}/user/me/http-response.adoc[]
+==== Curl
+include::{snippets}/user/me/curl-request.adoc[]
+
 == Todo API
 
 === Todo 생성
@@ -48,8 +56,6 @@ include::{snippets}/todo/delete/http-request.adoc[]
 include::{snippets}/todo/delete/http-response.adoc[]
 ==== Curl
 include::{snippets}/todo/delete/curl-request.adoc[]
-
-== Property API
 
 === Date Property 생성
 ==== HTTP Request
