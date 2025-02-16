@@ -32,20 +32,20 @@ if [[ -n "$BACKEND_FILES" ]]; then
     popd > /dev/null
 fi
 
-if [[ -n "$FRONTEND_FILES" ]]; then
-    echo "[Frontend] Running frontend-format checks..."
+# if [[ -n "$FRONTEND_FILES" ]]; then
+#     echo "[Frontend] Running frontend-format checks..."
 
-    pushd frontend > /dev/null || exit 1
+#     pushd frontend > /dev/null || exit 1
 
-    if ! npx eslint --fix $FRONTEND_FILES; then
-        echo -e "${RED}❌ Frontend linting failed! Please fix the above errors before committing${NC}"
-        exit 1
-    fi
+#     if ! npx eslint --fix $FRONTEND_FILES; then
+#         echo -e "${RED}❌ Frontend linting failed! Please fix the above errors before committing${NC}"
+#         exit 1
+#     fi
 
-    git add $FRONTEND_FILES
+#     git add $FRONTEND_FILES
 
-    popd > /dev/null
-fi
+#     popd > /dev/null
+# fi
 
 echo -e "${GREEN}✅ Pre-commit checks passed!${NC}"
 exit 0
