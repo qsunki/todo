@@ -20,16 +20,16 @@
         WHERE t.user_id = #{userId}
 
         <if test="todoListRetrieveReq.filters != null and !todoListRetrieveReq.filters.isEmpty()">
-            <foreach collection="todoListRetrieveReq.filters" item="filter" separator="AND">
+            <foreach collection="todoListRetrieveReq.filters" item="filter" separator="AND" open="AND (" close=")">
                 <if test="filter.name != null and filter.data != null and filter.type != null">
-                    AND p.name = #{filter.name}
+                    p.name = #{filter.name}
                     <choose>
                         <when test="filter.type.name() == 'SELECT'">
                             AND p.data->>'$.name' = #{filter.data.name}
                         </when>
                         <when test="filter.type.name() == 'DATE'">
-                            AND STR_TO_DATE(data->>'$.start', '%Y-%m-%d')
-                            BETWEEN #{filter.data.start} AND COALESCE(#{filter.data.end}, '9999-12-31');
+                            AND STR_TO_DATE(p.data->>'$.start', '%Y-%m-%dT%H:%i:%s')
+                            BETWEEN #{filter.data.start} AND COALESCE(#{filter.data.end}, '9999-12-31')
                         </when>
                     </choose>
                 </if>
