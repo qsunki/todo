@@ -23,8 +23,8 @@ $ java -jar build/libs/mytodo-0.0.1-SNAPSHOT.jar --spring.profiles.active=releas
 
 
 ### API 명세
-실행 후 브라우저에서 다음 주소로 접속
-<br>
+https://qsunki.github.io/todo/
+<br>또는 실행 후 브라우저에서 다음 주소로 접속<br>
 http://localhost:8080/docs/index.html
 
 ### Backend 라이브러리
