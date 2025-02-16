@@ -18,7 +18,7 @@ function SignUp() {
 
   const onFinish = async (values: SignUpForm) => {
     try {
-      await axios.post('/users', {
+      await axios.post('http://localhost:8080/api/users', {
         username: values.username,
         password: values.password
       });
