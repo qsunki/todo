@@ -68,6 +68,25 @@ class UserControllerTest {
     }
 
     @Test
+    void logout() {
+        // given
+        String sessionId = ControllerTestHelper.getLoginSession(webTestClient);
+
+        // when & then
+        webTestClient
+                .mutate()
+                .defaultCookie("JSESSIONID", sessionId)
+                .build()
+                .get()
+                .uri("/api/logout")
+                .exchange()
+                .expectStatus()
+                .isOk()
+                .expectBody(Void.class)
+                .consumeWith(document("user/{method-name}"));
+    }
+
+    @Test
     void me() {
         // given
         String sessionId = ControllerTestHelper.getLoginSession(webTestClient);
