@@ -5,6 +5,7 @@
 - 회원가입/로그인/로그아웃
 - 할 일 목록 조회/추가/수정/삭제
 - 우선순위 필터링
+![Screenshot 2025-02-16 154827](https://github.com/user-attachments/assets/3d00eafb-8bc6-4f10-9395-089f09e270eb)
 
 ### 실행 방법
 ```
